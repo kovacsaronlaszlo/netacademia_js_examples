@@ -3,17 +3,30 @@ class Card {
         this.value = value;
         this.elem = elem;
         this.color = 'black';
-        console.log(this);
+        this.resolved = false;
+        this.blocked = false;
 
-        this.elem.addEventListener('click', (event) => {
+        this.elem.addEventListener('click', () => {
             this.OnClick();
         });
+
+        window.addEventListener('gameBlocked', () => {
+            this.blocked = true;
+        });
+
+        window.addEventListener('gameUnBlocked', () => {
+            this.blocked = false;
+        });
+
         this.UpdateColor();
     }
 
     OnClick() {
-        console.log('click');
+        if (this.blocked) {
+            return;
+        }
         this.ToggleColor();
+        this.TriggerCardClick();
     }
 
     ToggleColor() {
@@ -24,4 +37,16 @@ class Card {
     UpdateColor() {
         this.elem.style.backgroundColor = this.color;
     }
+
+    TriggerCardClick() {
+        let event = new CustomEvent('cardClick', {detail:this});
+        window.dispatchEvent(event);
+    }
+
+    SetResolved() {
+        this.resolved = true;
+        this.elem.style.visibility = 'hidden';
+    }
+
+
 }
