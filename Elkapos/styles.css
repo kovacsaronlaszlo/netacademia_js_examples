@@ -10,6 +10,7 @@ div#game {
     box-sizing: border-box;
     margin: 20px 0;
     width: 100%;
+    cursor: none;
 }
 
 div#box {
