@@ -14,6 +14,9 @@ class Board {
         window.addEventListener('worm/cellRemoved', event => {
             this.UpdateCell(event.detail.rowIndex, event.detail.colIndex, 'gray');
         });
+        window.addEventListener('apple/added', event => {
+            this.UpdateCell( event.detail.rowIndex, event.detail.colIndex, 'red');
+        });
     }
 
     InitGrid() {

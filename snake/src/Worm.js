@@ -9,6 +9,9 @@ class Worm {
         // irány
         this.direction = null;
 
+        // kukac növekedés
+        this.growCounter = 2;
+
     }
 
     // getter
@@ -16,10 +19,59 @@ class Worm {
         return this.cellCollection[0];
     }
 
+    GetNextCell() {
+        let nextRow = this.GetFirstCell().row,
+            nextCol = this.GetFirstCell().col;
+
+        switch (this.direction) {
+            case 'up':
+                nextRow--;
+                break;
+            case 'right':
+                nextCol++;
+                break;
+            case 'down':
+                nextRow++;
+                break;
+            case 'left':
+                nextCol--;
+                break;
+        }
+
+        return {row: nextRow, col: nextCol};
+    }
+
     //setter
 
     SetDirection(newDirection) {
         this.direction = newDirection;
+
+        this.GetNextCell();
+    }
+
+    Move() {
+
+        if(this.direction == null) {
+            return;
+        }
+
+        // unshift
+        let newFirsdtCell = this.GetNextCell();
+        this.cellCollection.unshift(newFirsdtCell);
+        this.TriggerCellAdded(newFirsdtCell);
+
+        //pop
+        if (this.growCounter == 0) {
+            let lastCell = this.cellCollection.pop();
+            this.TriggerCellRemove(lastCell);
+        } else {
+            this.growCounter--;
+        }
+    }
+
+    // kukca növekedés
+    Grow(val) {
+        this.growCounter += val;
     }
 
     //esemény tüzelő fv.
