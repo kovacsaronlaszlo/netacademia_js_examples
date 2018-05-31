@@ -1,2 +1,4 @@
 // game
-new Game();
+// new Game();
+
+let game = new Game();
